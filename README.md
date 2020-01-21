@@ -192,7 +192,7 @@ Indeed:
 * With only Airbus and Boeing, the score reaches **88%**;
 * When taking into account all manufacturers, the score is **75%**.
 
-However, while train accuracy reached nearly **1** , the test accuracy was only **0.6**. We can’t deny that these model's good scores have been achieved thanks to the training part learnt "by heart".
+However, while train accuracy reached nearly **1** , the test accuracy was only **0.6**. We can’t rule out that these model's good scores have been achieved thanks to the training part learnt "by heart".
 
 The models could be more robust if trained with images coming from more diverse social media. Furthermore, few people apprear on SeatGuru images, whereas there are lots of selfies on Instagram, and we think that this issue requires further consideration.
 
