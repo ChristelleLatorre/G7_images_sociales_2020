@@ -11,7 +11,9 @@ We provide you, *inter alia*:
 * A very reliable `View` model to predict the viewpoint of an image: Exterior, Interior, Exterior viewed from a window, Meal tray. The 3 first classes score a precision and recall above **0.95**.
 
 ### Tools
-* A functional pipeline to which you can input a set of social media images and get predictions at various levels: viewpoint, aircraft manufacturer, aircraft type. Several such models gave quite good scores; notably, in the `Interiors - manufacturer` model: Airbus class scores a precision of **0.7323%** and a recall of **0.8628%**; Boeing class scores a precision of **0.7690%** and a recall of **0.8815%**. Although these results have to be interpreted with caution (considering the models were trained and tested only on the few SeatGuru images we were given), we think that they can be re-trained with more data and from wider variety of social media sources, to give more accurate results.
+* A functional pipeline to which you can input a set of social media images and get predictions at various levels: viewpoint, aircraft manufacturer, aircraft type. 
+* Some models to run through the pipeline.
+The resulting scores have to be interpreted with caution, considering the models were trained and tested only on the few SeatGuru images we were given. We think that they can be re-trained with more data and from wider variety of social media sources, to give more accurate results.
 * An easy-to-use transfer learning method.
 * An avdanced data augmentation function.
 * Some insights for further use of `talos` library (hyperparameters optimization).
