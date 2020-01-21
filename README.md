@@ -11,7 +11,7 @@ We provide you, *inter alia*:
 * A very reliable `View` model to predict the viewpoint of an image: Exterior, Interior, Exterior viewed from a window, Meal tray. The 3 first classes score a precision and recall above **0.95**.
 
 ### Tools
-* A functional pipeline to which you can input a set of social media images and get predictions at various levels: viewpoint, aircraft manufacturer, aircraft type. Several such models gave quite good scores; notably, in the `Interiors - manufacturer` model: Airbus class scores a precision of **0.7323** and a recall of **0.8628**; Boeing class scores a precision of **0.7690** and a recall of **0.8815**. Although these results have to be interpreted with caution (considering the models were trained and tested only on the few SeatGuru images we were given), we think that they can be re-trained with more data and from wider variety of social media sources, to give more accurate results.
+* A functional pipeline to which you can input a set of social media images and get predictions at various levels: viewpoint, aircraft manufacturer, aircraft type. Several such models gave quite good scores; notably, in the `Interiors - manufacturer` model: Airbus class scores a precision of **0.7323%** and a recall of **0.8628%**; Boeing class scores a precision of **0.7690%** and a recall of **0.8815%**. Although these results have to be interpreted with caution (considering the models were trained and tested only on the few SeatGuru images we were given), we think that they can be re-trained with more data and from wider variety of social media sources, to give more accurate results.
 * An easy-to-use transfer learning method.
 * An avdanced data augmentation function.
 * Some insights for further use of `talos` library (hyperparameters optimization).
@@ -58,14 +58,16 @@ Defined paths in code files (you might have to set project_path yourself):
 &nbsp;
 # Contents
 ## 1 `Scraping`
+
+To know before scraping: Airliners images are subject to copyright. 
+
 Codes used to scrap Airliners and Google Images in order to get Airbus and Boeing images of several aircraft types.
 We chose to enrich our images datasets to perform supervised learning for classification tasks on aircraft exteriors images.
 
 `g7_scraping.ipynb`: one single notebook that creates DataFrames with web links of images to be scrapped, and then performs scraping.
-All images scrapped, along with the `CSV` files containing the DataFrames, will be handed in separately.
 Please note that Google Images scraping requires the installation of ChromeDriver: https://chromedriver.chromium.org/.
 
-Running the whole code takes a bit of time. Since we already performed this scraping task, you don't need to run it again. That said, you can use the code as a template and adapt it to other websites you might want to srcap.
+Running the whole code takes a bit of time.
 
  
 &nbsp;
@@ -113,15 +115,15 @@ At first, we made some attempts with CNNs built from scratch. Facing disappointi
 The following table summarises the models trained, associated notebook, comments and results.
 For each notebook, the output is a model in `h5`format, along with a pickle file containing a dict of labels (handed in separately, due to GitHub file size limitations).
 
-| Model | Name | Training source | Comments | Train results | Test results |
+| Model | Notebook name | Training source | Comments | Train results | Test results |
 | :--- |:---| :---| :--- | :--- | :---
-| View | **`g7_view_f.ipynb**`** | SeatGuru | All SeatGuru images | 1 | 0.9648 |
-| Exterior | **`g7_model_ext_f3.ipynb**`** | Airliners | 500 images; A320, A321, A330, A340, A350, A380; 737, 747, 757, 777, 787 | 0.9932 | 0.7745 |
+| View (`View`) | **`g7_view_f.ipynb**`** | SeatGuru | All SeatGuru images | 1 | 0.9648 |
+| Exteriors - type (`Ext_typ`) | **`g7_model_ext_f3.ipynb**`** | Airliners | 500 images; A320, A321, A330, A340, A350, A380; 737, 747, 757, 777, 787 | 0.9932 | 0.7745 |
 |  | `g7_model_ext_f2.ipynb` | Airliners | 1000 images; A320, A321, A330,  A350; 737, 747, 757, 777 | 0.9971 | 0.8479 |
-| Interior manufacturer | **`g7_seatguru_int_man_f2.ipynb**`** | SeatGuru | All Airbus & Boeing images | 0.9991 | 0.6141 |
-| Interior Boeing | `g7_int_Boeing_f.ipynb` | SeatGuru | 737, 747, 757, 777 | 1 | 0.65 |
+| Interiors - manufacturer (`Int_man`) | **`g7_seatguru_int_man_f2.ipynb**`** | SeatGuru | All Airbus & Boeing images | 0.9991 | 0.6141 |
+| Interiors - Boeing (`Int_Boeing`) | `g7_int_Boeing_f.ipynb` | SeatGuru | 737, 747, 757, 777 | 1 | 0.65 |
 |  | **`g7_int_Boeing_f2.ipynb**`** | SeatGuru | 737, 747, 757, 777, 767, 787 | 1 | 0.65 |
-| Interior Airbus | **`g7_Airbus_Hack_Seatguru_f.ipynb**`** | Hackathon + SeatGuru | A320, A321, A330,  A350, A380 | 0.9917 | 0.6052 |
+| Interiors - Airbus (`Int_Airbus`) | **`g7_Airbus_Hack_Seatguru_f.ipynb**`** | Hackathon + SeatGuru | A320, A321, A330,  A350, A380 | 0.9917 | 0.6052 |
 |  | `g7_Airbus_Hack_Seatguru_f1.ipynb` | Hackathon + SeatGuru | Same + A340 | 0.9347 | 0.5499 |
 |  | `g7_int_Airbus_Seatguru_f.ipynb` | SeatGuru | A320, A321, A330, A350, A380 | 0.9976 | 0.4241 |
 |  | `g7_int_Airbus_Hackathon_f.ipynb` | Hackathon | A320, A330,  A350, A380 | 0.9975 | 0.6792 |
@@ -140,9 +142,9 @@ The chosen model is not the one with the greatest valid accuracy, but we believe
 
 Besides, for all Interiors models the same problem arose: training accuracy converged with 1, whereas validation accuracy stagnated around 0.6. Since we didn’t have that much images, the network learnt them by heart and proved unable to generalise. 
 
-The lack of relevant labelled data was a big issue in this project, and our data augmentation solution was not enough to properly deal with it. 
+The lack of relevant labelled data was a big issue in this project, and our data augmentation solution was not enough to properly deal with it. Data augmentation increased our treatment time without increasing and sometimes even decreasing our validation accuracy. Consequently, the models used in the pipeline were not created using it.
 
-Moreover, we came to the conclusion that making predictions on social media data requires training on similar images: Hackathon images are too “clean” (and, above all, people-free) compared to SeatGuru or Instagram images, which probably explains the mitigated results obtained for Airbus aircraft interiors.
+Moreover, we came to the conclusion that making predictions on social media data requires training on similar images: Hackathon images are too “clean” (and, above all, people-free) compared to Instagram images (and even SeatGuru), which probably explains the mitigated results obtained for Airbus aircraft interiors.
 
 To conclude, we think that a greater amount of data would be a solution to improve performance. Also, more epochs (iterations) could be performed to train the models (in our case, we trained with a maximum of 20 epochs due to time and resource constraints).
 
@@ -176,6 +178,27 @@ Output: `CSV` files containing predictions (one file per social network / hashta
 
 &nbsp;
 This directory also contains: 
-* `g7_seatguru_results.ipynb` and `g7_seatguru_analysis`: code to compute evaluation scores on SeatGuru images, and display confusion matrices and histograms;
-* `g7_score_insta.ipynb`: some statistics about the relevance of Instagram hashtags compared to the labels we found.
+* `g7_score_insta.ipynb`: some statistics about the relevance of Instagram hashtags compared to the labels we found from the pipeline;
+* `g7_seatguru_results.ipynb` and `g7_seatguru_analysis.ipynb`: code to compute evaluation scores after the pipleine was run on SeatGuru images, and display confusion matrices and histograms.
+
+&nbsp;
+### Some insights about our results (SeatGuru)
+The `View` model obtained very high scores: **98,9%** without considering images classified as "Others", and **96,7%** with "Others".
+
+We tried to compare probabilities obtained on Airbus and Boeing against probabilities for other aircraft manufacturers, but we didn’t come to any conclusion enabling to distinguish them properly.
+
+For manufacturer detection on Interiors (`Int_man`), the score seems satisfying at first glance but must be interpreted with caution.
+Indeed: 
+* With only Airbus and Boeing, the score reaches **88%**;
+* When taking into account all manufacturers, the score is **75%**.
+
+However, while train accuracy reached nearly **1** , the test accuracy was only **0.6**. We can’t deny that these model's good scores have been achieved thanks to the training part learnt "by heart".
+
+The models could be more robust if trained with images coming from more diverse social media. Furthermore, few people apprear on SeatGuru images, whereas there are lots of selfies on Instagram, and we think that this issue requires further consideration.
+
+For aircraft types detection in Exteriors (`Ext_typ`), the accuracy is very low: **14%** for 11 models taken into account whereas the model performed well on Airliners images.
+Our hypothesis is that images taken by professional photographers and images taken by travellers are quite different. Thus, Airliners is probably not the best choice to train the model.
+
+To conclude, a unique source for the training doesn’t seem to be a good way to create a model able to generalize well, and a greater amount of data is needed.
+
 
